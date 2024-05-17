@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directory and URL Submission</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3b3939ec;
+            color: #f7f6f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #242625f6;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #ededed;
+            font-style: italic;
+            text-decoration: solid;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form { 
+            padding-left: 5rem;
+            padding-right: 5rem;
+            gap: 2rem;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .titleForm{
+            text-align: left;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-style: italic;
+        }
+
+        #url_Title{
+            margin-top: 2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            margin-top: 1rem;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        select {
+            width: calc(100% - 20px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    </style>
+    <script>
+        function validateURL() {
+            const urlInput = document.getElementById('url');
+            const submitButton = document.getElementById('submit');
+            const regex = /^[a-zA-Z0-9.\/\*]*$/;
+            if (regex.test(urlInput.value)) {
+                submitButton.classList.remove('disabled');
+            } else {
+                submitButton.classList.add('disabled');
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Choose Directory and Enter URL</h1>
+        <form action="/choose_directory" method="post" enctype="multipart/form-data">
+            <label for="directory" class="titleForm">Choose a directory:</label>
+            <input type="file" id="directory" name="directory" webkitdirectory directory>
+            <button type="submit">Submit</button>
+        </form>
+
+        {% if files %}
+        <form action="/submit_url" method="post">
+            <input type="hidden" name="directory" value="{{ directory }}">
+            <label for="files" class="titleForm" >Select a file:</label>
+            <select name="file" id="files">
+                {% for file in files %}
+                <option value="{{ file }}">{{ file }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="url" class="titleForm" id="url_Title">Enter URL:</label>
+            <input type="text" id="url" name="url" oninput="validateURL()" required>
+            <button type="submit" id="submit" class="disabled">Save URL</button>
+        </form>
+    </div>
+    {% endif %}
+</body>
+
+</html>
