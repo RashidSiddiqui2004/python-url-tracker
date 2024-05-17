@@ -17,5 +17,5 @@ URL Tracker is a Flask web application designed to track the different URLs visi
 ## Getting Started
 1. Clone the repository:
    ```bash
-   git clone[ https://github.com/username/URL-Tracker](https://github.com/RashidSiddiqui2004/python-url-tracker).git
+   git clone https://github.com/RashidSiddiqui2004/python-url-tracker.git
 
